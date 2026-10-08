@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10100f">
+    <meta name="description" content="Yerbol Abdumannopov — premium Three.js portfolio hero visualizer.">
+    <title>Yerbol Abdumannopov — Creative Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        }
+      }
+    </script>
+    <style>
+      :root {
+        color-scheme: dark;
+        --background: #10100f;
+        --foreground: #f5f3ed;
+        --muted: #92918b;
+        --lime: #cbfa63;
+        font-family: "Manrope", sans-serif;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      * { box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+      body { position: relative; color: var(--foreground); background: radial-gradient(ellipse at 69% 48%, #1c1d18 0%, var(--background) 62%); }
+      canvas { position: fixed; inset: 0; width: 100%; height: 100%; }
+      #scene { z-index: 0; display: block; touch-action: pan-y; }
+      .atmosphere { position: fixed; z-index: 1; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(16,16,15,.95) 0%, rgba(16,16,15,.8) 31%, rgba(16,16,15,.11) 72%, rgba(16,16,15,.04) 100%), linear-gradient(0deg, rgba(16,16,15,.76), transparent 23%, transparent 82%, rgba(16,16,15,.45)); }
+      .grain { position: fixed; z-index: 2; inset: 0; opacity: .03; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E"); }
+      .topbar { position: fixed; z-index: 4; top: 0; right: 0; left: 0; height: 78px; padding: 0 clamp(24px, 6.3vw, 96px); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ffffff15; }
+      .brand { display: inline-flex; align-items: center; gap: 11px; color: inherit; text-decoration: none; }
+      .brand-mark { font-size: 26px; font-weight: 800; letter-spacing: -.09em; }
+      .brand-mark span { color: var(--lime); }
+      .brand-name { display: grid; gap: 4px; font-size: 11px; font-weight: 700; }
+      .brand-name small, .mono { color: var(--muted); font: 8px "DM Mono", monospace; letter-spacing: .16em; text-transform: uppercase; }
+      .availability { color: #cecec7; font: 9px "DM Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+      .availability i { display: inline-block; width: 7px; height: 7px; margin-right: 9px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 12px #cbfa638c; }
+      .layout { position: relative; z-index: 3; width: min(1200px, calc(100% - 64px)); height: 100%; margin: auto; display: grid; grid-template-columns: .97fr 1.03fr; align-items: center; pointer-events: none; }
+      .copy { padding: 40px 0 0; }
+      .eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 9px 12px; border: 1px solid #ffffff1d; border-radius: 99px; color: #d3d1c8; font: 9px "DM Mono", monospace; letter-spacing: .035em; }
+      .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 11px var(--lime); }
+      h1 { margin: 29px 0 19px; font-size: clamp(54px, 7.2vw, 88px); font-weight: 600; line-height: 1.01; letter-spacing: -.082em; }
+      h1 span { color: var(--lime); }
+      .intro { max-width: 425px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.9; }
+      .actions { display: flex; align-items: center; gap: 12px; margin-top: 27px; pointer-events: auto; }
+      .button { min-height: 46px; padding: 0 19px; display: inline-flex; align-items: center; gap: 17px; border: 1px solid transparent; border-radius: 99px; color: #141510; background: var(--lime); font-size: 11px; font-weight: 700; text-decoration: none; transition: background .2s, transform .2s; }
+      .button:hover { transform: translateY(-2px); background: #ddff91; }
+      .button span { font-size: 15px; }
+      .secondary { color: var(--foreground); border-color: #ffffff24; background: transparent; }
+      .secondary:hover { color: var(--lime); border-color: var(--lime); background: transparent; }
+      .footnote { margin-top: 53px; display: flex; align-items: center; gap: 11px; color: var(--muted); font: 8px "DM Mono", monospace; letter-spacing: .115em; text-transform: uppercase; }
+      .footnote i { width: 32px; height: 1px; background: var(--lime); }
+      .visual { position: relative; min-height: min(76vh, 650px); pointer-events: auto; }
+      .visual-label { position: absolute; display: grid; gap: 5px; color: var(--foreground); font: 8px "DM Mono", monospace; letter-spacing: .16em; text-transform: uppercase; }
+      .visual-label span:last-child { color: var(--muted); }
+      .label-top { top: 18%; right: 3%; }
+      .label-bottom { bottom: 21%; left: 0; }
+      .visual-caption { position: absolute; right: 1%; bottom: 13%; left: 0; display: flex; gap: 8px; align-items: center; color: var(--muted); font: 8px "DM Mono", monospace; letter-spacing: .1em; }
+      .visual-caption i { width: 6px; height: 6px; background: var(--lime); }
+      .visual-caption span:last-child { margin-left: auto; }
+      .interaction-hint { position: fixed; z-index: 4; right: 28px; bottom: 25px; color: #77776f; font: 8px "DM Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+      .interaction-hint b { color: var(--lime); font-weight: 400; }
+      .error-note { position: fixed; z-index: 5; right: 22px; bottom: 54px; max-width: 270px; color: #ffb3ac; font: 10px "DM Mono", monospace; }
+      .error-note:empty { display: none; }
+
+      @media (max-width: 700px) {
+        html, body { height: 100%; height: 100dvh; }
+        .topbar { height: 66px; padding: 0 20px; }
+        .layout { width: calc(100% - 42px); padding-top: 49px; grid-template-columns: 1fr; grid-template-rows: .87fr 1.13fr; }
+        .copy { align-self: end; padding: 28px 0 0; }
+        h1 { margin: 21px 0 12px; font-size: clamp(49px, 12.5vw, 69px); }
+        .intro { max-width: 365px; font-size: 11px; }
+        .actions { margin-top: 19px; }
+        .button { min-height: 42px; padding: 0 15px; font-size: 10px; }
+        .footnote { margin-top: 22px; font-size: 7px; }
+        .visual { min-height: 0; }
+        .label-top { top: 8%; right: 1%; }
+        .label-bottom { bottom: 19%; left: 0; }
+        .visual-caption { right: 1%; bottom: 8%; left: 0; }
+        .availability { font-size: 7px; }
+        .interaction-hint { right: 18px; bottom: 14px; font-size: 7px; }
+      }
+      @media (max-width: 400px) {
+        .layout { width: calc(100% - 34px); grid-template-rows: .91fr 1.09fr; }
+        h1 { font-size: 47px; }
+        .intro { font-size: 10px; }
+        .secondary { display: none; }
+        .footnote { margin-top: 16px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="scene" aria-hidden="true"></canvas>
+    <div class="atmosphere" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Portfolio bosh sahifa"><span class="brand-mark">Y<span>.</span></span><span class="brand-name">Yerbol Abdumannopov<small>Full-stack developer</small></span></a>
+      <span class="availability"><i></i>Open to new projects</span>
+    </header>
+    <main class="layout">
+      <section class="copy">
+        <div class="eyebrow"><i></i> DIGITAL CRAFT · BUILT WITH THREE.JS</div>
+        <h1>Ideas into<br><span>experiences.</span></h1>
+        <p class="intro">Salom, men Yerbol. Murakkab g‘oyalarni chiroyli, tezkor va foydali raqamli mahsulotlarga aylantiraman.</p>
+        <div class="actions">
+          <a class="button" href="https://t.me/abdumannopov_013" target="_blank" rel="noreferrer">Loyihani boshlash <span>↗</span></a>
+          <a class="button secondary" href="/">Portfolio <span>↓</span></a>
+        </div>
+        <div class="footnote"><i></i><span>Yaxshi kod. O‘ylangan dizayn. Haqiqiy natija.</span></div>
+      </section>
+      <div class="visual" aria-label="Interaktiv Three.js 3D grafika">
+        <div class="visual-label label-top"><span>CREATIVE CODE</span><span>EST. FOR THE WEB</span></div>
+        <div class="visual-label label-bottom"><span>01 — EXPLORE</span><span>HOVER TO FEEL</span></div>
+        <div class="visual-caption"><i></i> LIVE WEBGL VISUALIZER <span>SCENE / 001</span></div>
+      </div>
+    </main>
+    <div class="interaction-hint"><b>↗</b> Move your cursor to explore</div>
+    <div class="error-note" id="error-note" role="status" aria-live="polite"></div>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+      const canvas = document.querySelector("#scene");
+      const visual = document.querySelector(".visual");
+      const errorNote = document.querySelector("#error-note");
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+      camera.position.set(0, 0, 7.6);
+
+      // A capped pixel ratio, one draw call per point field and no post-processing keep this full-screen scene light.
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: window.devicePixelRatio < 2,
+        powerPreference: "high-performance",
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+      renderer.setClearColor(0x000000, 0);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.2;
+
+      // Bake a small procedural studio into a PMREM texture once to give the polished surfaces rich reflections.
+      const environmentGenerator = new THREE.PMREMGenerator(renderer);
+      const environment = new RoomEnvironment();
+      scene.environment = environmentGenerator.fromScene(environment, 0.04).texture;
+      environment.dispose();
+      environmentGenerator.dispose();
+
+      const ambientLight = new THREE.AmbientLight(0xbcc5ab, 0.5);
+      scene.add(ambientLight);
+
+      const keyLight = new THREE.DirectionalLight(0xecffd0, 1.9);
+      keyLight.position.set(-3, 4, 5);
+      scene.add(keyLight);
+
+      // The slow-moving spotlight travels over the sculpture, making the changing specular highlight visible.
+      const movingLight = new THREE.SpotLight(0xd9fb91, 58, 18, Math.PI / 6, 0.78, 1.3);
+      movingLight.position.set(3.6, 3.2, 4.3);
+      movingLight.target.position.set(window.innerWidth < 760 ? 0 : 1.85, 0, 0);
+      scene.add(movingLight, movingLight.target);
+
+      const rimLight = new THREE.PointLight(0xa8c879, 31, 13, 2);
+      rimLight.position.set(-4, -1, -3);
+      scene.add(rimLight);
+
+      // Apply a tiny GPU-only wave to each vertex; no geometry is rebuilt on the CPU each frame.
+      function addVertexMotion(material) {
+        material.onBeforeCompile = (shader) => {
+          shader.uniforms.uTime = { value: 0 };
+          shader.vertexShader = shader.vertexShader.replace(
+            "#include <common>",
+            "#include <common>\nuniform float uTime;",
+          );
+          shader.vertexShader = shader.vertexShader.replace(
+            "#include <begin_vertex>",
+            `
+              vec3 transformed = vec3(position);
+              float waveA = sin(position.x * 2.6 + uTime * 0.55);
+              float waveB = cos(position.y * 3.1 - uTime * 0.43);
+              float waveC = sin(position.z * 2.8 + uTime * 0.34);
+              transformed += normal * ((waveA * waveB + waveC) * 0.035);
+            `,
+          );
+          material.userData.timeUniform = shader.uniforms.uTime;
+        };
+        material.customProgramCacheKey = () => "yerbol-orbital-wave-v1";
+        return material;
+      }
+
+      const sculpture = new THREE.Group();
+      scene.add(sculpture);
+
+      const coreMaterial = addVertexMotion(new THREE.MeshPhysicalMaterial({
+        color: "#a8cc70",
+        metalness: 0.68,
+        roughness: 0.24,
+        clearcoat: 1,
+        clearcoatRoughness: 0.13,
+        envMapIntensity: 1.55,
+        emissive: "#24301a",
+        emissiveIntensity: 0.25,
+      }));
+      const core = new THREE.Mesh(new THREE.IcosahedronGeometry(1.14, 4), coreMaterial);
+      sculpture.add(core);
+
+      const wireMaterial = addVertexMotion(new THREE.MeshBasicMaterial({
+        color: "#e5ffb8",
+        wireframe: true,
+        transparent: true,
+        opacity: 0.36,
+        depthWrite: false,
+      }));
+      const wireShell = new THREE.Mesh(new THREE.IcosahedronGeometry(1.22, 3), wireMaterial);
+      sculpture.add(wireShell);
+
+      const knot = new THREE.Mesh(
+        new THREE.TorusKnotGeometry(0.51, 0.095, 160, 12, 2, 3),
+        new THREE.MeshPhysicalMaterial({
+          color: "#e2e8d5",
+          metalness: 0.86,
+          roughness: 0.18,
+          clearcoat: 1,
+          clearcoatRoughness: 0.12,
+          envMapIntensity: 1.7,
+        }),
+      );
+      knot.rotation.set(0.45, 0.35, -0.25);
+      sculpture.add(knot);
+      sculpture.position.x = window.innerWidth < 760 ? 0 : 1.85;
+
+      // One BufferGeometry batches all ambient particles into a single lightweight WebGL draw call.
+      const particleCount = window.innerWidth < 640 ? 220 : 480;
+      const particlePositions = new Float32Array(particleCount * 3);
+      const particleColors = new Float32Array(particleCount * 3);
+      const lime = new THREE.Color("#d9fb91");
+      const softWhite = new THREE.Color("#e9e8df");
+      for (let index = 0; index < particleCount; index += 1) {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = 1.8 + Math.random() * 1.1;
+        const offset = index * 3;
+        particlePositions[offset] = Math.cos(angle) * radius;
+        particlePositions[offset + 1] = (Math.random() - 0.5) * 4.1;
+        particlePositions[offset + 2] = Math.sin(angle) * radius - 0.6;
+
+        const shade = index % 4 === 0 ? softWhite : lime;
+        particleColors[offset] = shade.r;
+        particleColors[offset + 1] = shade.g;
+        particleColors[offset + 2] = shade.b;
+      }
+      const particleGeometry = new THREE.BufferGeometry();
+      particleGeometry.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
+      particleGeometry.setAttribute("color", new THREE.BufferAttribute(particleColors, 3));
+      const particleField = new THREE.Points(
+        particleGeometry,
+        new THREE.PointsMaterial({
+          size: 0.022,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.72,
+          depthWrite: false,
+          sizeAttenuation: true,
+        }),
+      );
+      particleField.position.x = sculpture.position.x;
+      scene.add(particleField);
+
+      const pointer = new THREE.Vector2();
+      const targetRotation = new THREE.Vector2();
+      let animationFrame = 0;
+      let isVisible = true;
+      let isPageActive = true;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Track only a normalized pointer target: the sculpture, camera and page scroll remain independent.
+      visual.addEventListener("pointermove", (event) => {
+        const bounds = visual.getBoundingClientRect();
+        pointer.x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+        pointer.y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+      }, { passive: true });
+      visual.addEventListener("pointerleave", () => pointer.set(0, 0), { passive: true });
+
+      // Resize from the visual column itself, so this scene also works as an embedded portfolio side-visual.
+      function resize() {
+        const bounds = visual.getBoundingClientRect();
+        if (!bounds.width || !bounds.height) return;
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+        renderer.setSize(bounds.width, bounds.height, false);
+        camera.aspect = bounds.width / bounds.height;
+        camera.fov = window.innerWidth < 640 ? 43 : 38;
+        camera.updateProjectionMatrix();
+        sculpture.position.x = window.innerWidth < 760 ? 0 : 1.85;
+        particleField.position.x = sculpture.position.x;
+        movingLight.target.position.x = sculpture.position.x;
+        if (reducedMotion) renderer.render(scene, camera);
+      }
+      const resizeObserver = new ResizeObserver(resize);
+      resizeObserver.observe(visual);
+      window.addEventListener("resize", resize, { passive: true });
+      resize();
+
+      // Animate only while the visual is on screen; restart with a fresh clock after a hidden tab resumes.
+      let lastFrame = performance.now();
+      function renderFrame(now) {
+        if (!isVisible || !isPageActive) return;
+        animationFrame = requestAnimationFrame(renderFrame);
+
+        const elapsed = now * 0.001;
+        const delta = Math.min((now - lastFrame) * 0.001, 0.05);
+        lastFrame = now;
+        const motionScale = reducedMotion ? 0 : 1;
+        const follow = 1 - Math.exp(-delta * 4.5);
+
+        targetRotation.x += (pointer.y * 0.22 * motionScale - targetRotation.x) * follow;
+        targetRotation.y += (pointer.x * 0.32 * motionScale - targetRotation.y) * follow;
+        sculpture.rotation.x = elapsed * 0.12 * motionScale + targetRotation.x;
+        sculpture.rotation.y = elapsed * 0.17 * motionScale + targetRotation.y;
+        sculpture.rotation.z = Math.sin(elapsed * 0.19) * 0.035 * motionScale;
+        knot.rotation.x = 0.45 + elapsed * 0.13 * motionScale - targetRotation.y * 0.6;
+        knot.rotation.y = 0.35 + elapsed * 0.18 * motionScale + targetRotation.x * 0.6;
+        particleField.rotation.y = elapsed * 0.027 * motionScale;
+
+        if (coreMaterial.userData.timeUniform) coreMaterial.userData.timeUniform.value = elapsed;
+        if (wireMaterial.userData.timeUniform) wireMaterial.userData.timeUniform.value = elapsed;
+
+        movingLight.position.x = 3.5 + Math.sin(elapsed * 0.35) * 1.15;
+        movingLight.position.y = 3 + Math.cos(elapsed * 0.27) * 0.75;
+        movingLight.position.z = 3.8 + Math.cos(elapsed * 0.3) * 0.8;
+        renderer.render(scene, camera);
+      }
+
+      function resumeAnimation() {
+        if (animationFrame || !isVisible || !isPageActive) return;
+        lastFrame = performance.now();
+        if (reducedMotion) {
+          renderer.render(scene, camera);
+          return;
+        }
+        animationFrame = requestAnimationFrame((now) => {
+          animationFrame = 0;
+          renderFrame(now);
+        });
+      }
+
+      const visibilityObserver = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          resumeAnimation();
+        } else {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = 0;
+        }
+      }, { threshold: 0.05 });
+      visibilityObserver.observe(visual);
+
+      document.addEventListener("visibilitychange", () => {
+        isPageActive = !document.hidden;
+        if (isPageActive) {
+          resumeAnimation();
+        } else {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = 0;
+        }
+      });
+
+      renderer.render(scene, camera);
+      resumeAnimation();
+      window.addEventListener("pagehide", () => {
+        cancelAnimationFrame(animationFrame);
+        resizeObserver.disconnect();
+        visibilityObserver.disconnect();
+        particleGeometry.dispose();
+        core.geometry.dispose();
+        wireShell.geometry.dispose();
+        knot.geometry.dispose();
+        renderer.dispose();
+      }, { once: true });
+    </script>
+  </body>
+</html>

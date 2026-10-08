@@ -1,0 +1,21 @@
+{
+  "name": "yerbol-abdumannopov-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Yerbol Abdumannopov — full-stack developer portfolio",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "nodemailer": "^10.0.16",
+    "sql.js": "^1.13.0"
+  }
+}

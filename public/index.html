@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10100f">
+    <meta name="description" content="Yerbol Abdumannopov — g‘oyalarni tezkor, chiroyli va ishonchli web mahsulotlarga aylantiradigan full-stack dasturchi.">
+    <title>Yerbol Abdumannopov — Full-stack developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <script type="importmap">
+      {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}
+    </script>
+    <script src="/app.js" type="module" defer></script>
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Yerbol — bosh sahifa"><span class="brand-mark">Y<span>.</span></span><span class="brand-name">yerbol<span>abdumannopov</span></span></a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menyuni ochish" aria-expanded="false"><span></span><span></span></button>
+      <nav class="main-nav" id="main-nav" aria-label="Asosiy menyu">
+        <a href="#about">Men haqimda</a>
+        <a href="#services">Xizmatlar</a>
+        <a href="#stack">Texnologiyalar</a>
+        <a href="#contact">Aloqa</a>
+        <button class="nav-login" id="open-auth">Kirish <span>↗</span></button>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="status-dot"></span> Ochiqman — yangi loyihalar uchun</div>
+          <h1>G‘oyangizni<br>raqamli <span class="accent">dunyoga</span><br>olib chiqamiz<span class="period">.</span></h1>
+          <p class="hero-intro">Salom, men Yerbol — interfeysdan servergacha, mahsulotingizni to‘liq yaratadigan full-stack dasturchiman.</p>
+          <div class="hero-actions">
+            <button class="button button-primary" data-open-order>Loyiha boshlash <span>↗</span></button>
+            <a class="button button-quiet" href="#about">Men haqimda <span>↓</span></a>
+          </div>
+          <div class="hero-social-links" aria-label="Tezkor aloqa havolalari">
+            <a href="https://t.me/abdumannopov_013" target="_blank" rel="noreferrer">Telegram <span>↗</span></a>
+            <a href="https://www.linkedin.com/in/erbol-abdumannopov-092348431" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a>
+            <a href="mailto:erbolabdumannopovcode@gmail.com">Email <span>↗</span></a>
+          </div>
+          <div class="hero-note"><span class="note-line"></span><span>Yaxshi kod. O‘ylangan dizayn. Haqiqiy natija.</span></div>
+        </div>
+        <div class="hero-visual" aria-label="Uch o‘lchamli animatsion grafika">
+          <canvas id="hero-canvas"></canvas>
+          <div class="orbit-label orbit-label-one"><span>FULL-STACK</span><span>DEVELOPER</span></div>
+          <div class="orbit-label orbit-label-two"><span>IDEA</span><span>→ PRODUCT</span></div>
+          <div class="visual-caption"><span class="caption-square"></span> CREATIVE CODE STUDIO <span>01 / 04</span></div>
+        </div>
+        <div class="hero-index"><span>01</span> — 04</div>
+      </section>
+
+      <section class="trust-strip">
+        <span>MEN ISHLATADIGAN TEXNOLOGIYALAR</span>
+        <div class="trust-list"><span>React</span><i>✳</i><span>Node.js</span><i>✳</i><span>Next.js</span><i>✳</i><span>MongoDB</span><i>✳</i><span>Three.js</span></div>
+      </section>
+
+      <section class="about section-shell section-pad" id="about">
+        <div class="section-heading"><span class="section-number">01 / MEN HAQIMDA</span><span class="section-side-note">KOD — VOSITA.<br>TA’SIR — MAQSAD.</span></div>
+        <div class="about-grid">
+          <h2>Murakkab g‘oyalarni <span class="muted">oddiy va ishlaydigan</span> yechimlarga aylantiraman.</h2>
+          <div class="about-text"><p>Men Yerbol Abdumannopov, zamonaviy web-ilovalar ishlab chiqishga ixtisoslashgan dasturchiman. Har bir loyiha — foydalanuvchi uchun qulay tajriba va biznes uchun o‘lchanadigan natija.</p><p>Yangi mahsulotni noldan yaratish, mavjud loyihani yangilash yoki jamoangizga qo‘shilish — men uchun qiziqarli vazifa.</p><a class="text-link" href="https://www.linkedin.com/in/erbol-abdumannopov-092348431" target="_blank" rel="noreferrer">LinkedIn profilim <span>↗</span></a></div>
+        </div>
+        <div class="stats-row">
+          <div class="stat"><span class="stat-number">01<span>—</span></span><span>Frontenddan<br>deploymentgacha</span></div>
+          <div class="stat"><span class="stat-number">∞</span><span>Yangi narsalarni<br>o‘rganishga ishtiyoq</span></div>
+          <div class="stat"><span class="stat-number">100<span>%</span></span><span>Har bir detalga<br>e’tibor</span></div>
+        </div>
+      </section>
+
+      <section class="services section-pad" id="services">
+        <div class="section-shell">
+          <div class="section-heading"><span class="section-number">02 / XIZMATLAR</span><span class="section-side-note">BIRINCHI G‘OYADAN<br>ISHLAYDIGAN MAHSULOTGACHA</span></div>
+          <h2 class="section-title">Nima <span class="muted">qura olamiz?</span></h2>
+          <div class="service-list">
+            <article class="service-card"><span class="service-index">01</span><div><h3>Web-sayt & interfeys</h3><p>Brendingizga mos, mobil qurilmalarda mukammal ishlaydigan zamonaviy saytlar va web-ilovalar.</p><div class="tag-list"><span>React</span><span>Next.js</span><span>Tailwind CSS</span></div></div><span class="service-arrow">↗</span></article>
+            <article class="service-card"><span class="service-index">02</span><div><h3>Backend & API</h3><p>Tez, xavfsiz va kengayishga tayyor serverlar, ma’lumotlar bazalari hamda REST API.</p><div class="tag-list"><span>Node.js</span><span>Express</span><span>MongoDB</span><span>Prisma</span></div></div><span class="service-arrow">↗</span></article>
+            <article class="service-card"><span class="service-index">03</span><div><h3>Telegram botlar</h3><p>Buyurtma, avtomatlashtirish va mijozlar bilan aloqa uchun qulay Telegram botlar.</p><div class="tag-list"><span>Telegram API</span><span>Automation</span><span>Integrations</span></div></div><span class="service-arrow">↗</span></article>
+            <article class="service-card"><span class="service-index">04</span><div><h3>To‘liq mahsulot & ish</h3><p>G‘oyani loyihalashdan production’ga chiqarishgacha. Shuningdek, jamoaga qo‘shilib ishlashga ham tayyorman.</p><div class="tag-list"><span>Full-stack</span><span>Deployment</span><span>Teamwork</span></div></div><span class="service-arrow">↗</span></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="stack section-shell section-pad" id="stack">
+        <div class="section-heading"><span class="section-number">03 / TEXNOLOGIYALAR</span><span class="section-side-note">DOIM O‘RGANISHDA.<br>DOIM RIVOJLANISHDA.</span></div>
+        <div class="stack-heading"><h2 class="section-title">Asboblar <span class="muted">qutim.</span></h2><p>Har bir vazifa uchun mos texnologiyani tanlayman — trend uchun emas, to‘g‘ri yechim uchun.</p></div>
+        <div class="stack-grid">
+          <div class="stack-group"><span class="stack-kicker">01 — FRONTEND</span><div class="stack-items"><span>HTML / CSS</span><span>Tailwind CSS</span><span>JavaScript</span><span>React.js</span><span>Next.js</span><span>Leaflet</span><span>Three.js</span></div></div>
+          <div class="stack-group"><span class="stack-kicker">02 — BACKEND</span><div class="stack-items"><span>Node.js</span><span>Express.js</span><span>REST API</span><span>MongoDB</span><span>Prisma</span><span>Authentication</span><span>Telegram Bots</span></div></div>
+          <div class="stack-group"><span class="stack-kicker">03 — ISH JARAYONI</span><div class="stack-items"><span>Git / GitHub</span><span>API integration</span><span>Security</span><span>Async JavaScript</span><span>Deployment</span><span>Teamwork</span></div></div>
+        </div>
+      </section>
+
+      <section class="contact section-pad" id="contact">
+        <div class="section-shell contact-inner">
+          <div class="section-heading"><span class="section-number">04 / KEYINGI QADAM</span><span class="section-side-note">YAXSHI LOYIHALAR<br>SUHBATDAN BOSHLANADI</span></div>
+          <h2>Keling,<br><span class="accent">biror zo‘r narsa</span><br>yarataylik<span class="period">.</span></h2>
+          <div class="contact-bottom"><p>Fikringiz bormi yoki jamoangizga dasturchi kerakmi?<br>Men bilan bog‘laning — gaplashib olamiz.</p><button class="button button-primary" data-open-order>Buyurtma berish <span>↗</span></button></div>
+          <div class="contact-links"><a href="https://t.me/abdumannopov_013" target="_blank" rel="noreferrer">Telegram <span>↗</span></a><a href="https://www.linkedin.com/in/erbol-abdumannopov-092348431" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a><a href="mailto:erbolabdumannopovcode@gmail.com">Email <span>↗</span></a></div>
+        </div>
+      </section>
+    </main>
+
+    <section class="admin-section section-shell" id="admin-section" hidden>
+      <div class="admin-heading"><div><span class="section-number">MAXSUS BO‘LIM</span><h2>Buyurtmalar paneli</h2></div><button class="button button-quiet" id="logout-button">Chiqish <span>↗</span></button></div>
+      <p class="admin-message" id="admin-message" aria-live="polite"></p>
+      <div class="orders-list" id="orders-list"></div>
+    </section>
+
+    <footer class="site-footer"><a class="footer-brand" href="#top">Y<span>.</span></a><span>© <span id="current-year"></span> Yerbol Abdumannopov. Mehr bilan yaratildi.</span><a href="#top">Yuqoriga ↑</a></footer>
+
+    <dialog class="modal" id="auth-modal" aria-labelledby="auth-title">
+      <form method="dialog" class="modal-close-form"><button class="modal-close" aria-label="Yopish">×</button></form>
+      <div class="modal-content">
+        <span class="section-number">SHAXSIY HISOB</span><h2 id="auth-title">Xush kelibsiz<span class="accent">.</span></h2>
+        <p class="modal-lead">Email manzilingizga bir martalik tasdiqlash kodi yuboramiz.</p>
+        <div class="auth-tabs"><button class="auth-tab active" data-mode="login">Kirish</button><button class="auth-tab" data-mode="register">Ro‘yxatdan o‘tish</button></div>
+        <form id="auth-form">
+          <label class="field register-field" hidden>Ismingiz<input name="name" autocomplete="name" maxlength="80" placeholder="Masalan, Yerbol"></label>
+          <label class="field register-field" hidden>Yoshingiz<input name="age" type="number" min="13" max="120" inputmode="numeric" placeholder="Yosh"></label>
+          <label class="field">Email<input name="email" type="email" autocomplete="email" required placeholder="sizning@email.com"></label>
+          <label class="field code-field" hidden>Email kodi<input name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="000000"></label>
+          <p class="form-message" id="auth-message" aria-live="polite"></p>
+          <button class="button button-primary form-submit" id="auth-submit" type="submit">Kodni emailga yuborish <span>↗</span></button>
+          <button class="text-button" id="resend-code" type="button" hidden>Kodni qayta yuborish</button>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog class="modal" id="order-modal" aria-labelledby="order-title">
+      <form method="dialog" class="modal-close-form"><button class="modal-close" aria-label="Yopish">×</button></form>
+      <div class="modal-content">
+        <span class="section-number">BIRINCHI QADAM</span><h2 id="order-title">Loyihangizni<br><span class="accent">boshlaymiz.</span></h2>
+        <p class="modal-lead">Qisqacha ma’lumot qoldiring. Tez orada siz bilan bog‘lanaman.</p>
+        <form id="order-form">
+          <label class="field">Ismingiz<input name="name" autocomplete="name" maxlength="80" required placeholder="Ismingiz"></label>
+          <label class="field">Email<input name="email" type="email" autocomplete="email" maxlength="254" required placeholder="sizning@email.com"></label>
+          <label class="field">Qanday xizmat kerak?
+            <select name="service" required><option value="" disabled selected>Tanlang</option><option>Sayt / web-ilova</option><option>Backend / REST API</option><option>Telegram bot</option><option>Full-stack loyiha</option><option>Jamoada ishlash</option><option>Boshqa</option></select>
+          </label>
+          <label class="field">Taxminiy budjet
+            <select name="budget" required><option value="" disabled selected>Tanlang</option><option>Kelishamiz</option><option>$100 gacha</option><option>$100–$500</option><option>$500+</option></select>
+          </label>
+          <label class="field">Loyiha haqida<textarea name="details" rows="4" maxlength="2000" required placeholder="Nima yaratmoqchisiz? Qisqacha yozing..."></textarea></label>
+          <p class="form-message" id="order-message" aria-live="polite"></p>
+          <button class="button button-primary form-submit" type="submit">Buyurtma yuborish <span>↗</span></button>
+        </form>
+      </div>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
